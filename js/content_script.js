@@ -46,21 +46,23 @@ $(document).bind('mouseup touchend', function(e){
 //     alert('clicked link')
 //   })
 // }
-
 function doubleTap(half_screen){
   var eventList = new Array()
   $(document).bind('click', function(e){
     if (eventList.length > 0){
-      if (window.performance.now() - eventList[0][1] < 1500){
-        console.log("double tap")
-        chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
-  			console.log(response.farewell);
-		});
+      if (window.performance.now() - eventList[0][1] < 1500 && Math.abs(e.screenX - eventList[0][0]) < 30){
+        if(eventList[0][2] == 0){
+          chrome.runtime.sendMessage({action: "doubletap-left"}, null);
+        }
+        else{
+          chrome.runtime.sendMessage({action: "doubletap-right"}, null);
+        }
       }
       eventList = []
     }
     else{
-      var eventInfo = [e.screen_X, window.performance.now()]
+      var p = e.screenX <half_screen? 0:1
+      var eventInfo = [e.screenX, window.performance.now(), p]
       eventList.push(eventInfo)
     }
   })

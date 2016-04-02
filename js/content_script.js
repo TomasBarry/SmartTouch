@@ -7,11 +7,11 @@ if($(window).scrollTop() === 0){
   var startPos
   var endPos
 
-  $(document).on('mousedown', function(e){
+  $(document).on('mousedown touchstart', function(e){
     startPos = e.clientY; //starting Y of client
     })
 
-  $(document).on('mouseup', function(e){
+  $(document).on('mouseup touchend', function(e){
       endPos = e.clientY; //stopping Y of client
       if ((endPos - startPos) > scrollDelta){
         console.log("startPos"+ startPos + "endPos" + endPos + "Delta" + (endPos-startPos))

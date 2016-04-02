@@ -7,17 +7,25 @@ if($(window).scrollTop() === 0){
   var startPos
   var endPos
 
-  // $(document).bind('mousedown touchstart', function(e){
-  //   // alert('touched')
-  //   console.log(e)
-  //   startPos = e.clientY; //starting Y of client
-  //   })
+  $(document).bind('mousedown touchstart', function(e){
+      if (e.type == "mousedown"){
+        startPos = e.pageY; //starting Y of client
+      }
+      else{
+        startPos = e.originalEvent.touches[0].pageY;
+      }
+    })
 
   $(document).bind('mouseup touchend', function(e){
-      endPos = e.clientY; //stopping Y of client
-      console.log(e)
-      // if ((endPos - startPos) > scrollDelta){
-      //   console.log("startPos"+ startPos + "endPos" + endPos + "Delta" + (endPos-startPos))
-      // }
+      if (e.type == "mouseup"){
+        endPos = e.pageY; //starting Y of client
+      }
+      else{
+        endPos = e.originalEvent.touches[0].pageY;
+      }
+      if ((endPos - startPos) > scrollDelta){
+        // console.log("startPos"+ startPos + "endPos" + endPos + "Delta" + (endPos-startPos))
+        location.reload()
+      }
   })
 }

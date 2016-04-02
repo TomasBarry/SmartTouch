@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+
+  "name": "literate-train",
+  "description": "This extension will refresh the page when a user swipes",
+  "version": "1.0",
+
+  "browser_action": {
+   "default_popup": "popup.html"
+  },
+  "permissions": [
+   "activeTab"
+   ]
+}

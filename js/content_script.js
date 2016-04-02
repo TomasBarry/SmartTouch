@@ -9,22 +9,21 @@ if($(window).scrollTop() === 0){
 
   $(document).bind('mousedown touchstart', function(e){
       if (e.type == "mousedown"){
-        startPos = e.pageY; //starting Y of client
+        startPos = e.pageY; // starting Y of client
       }
       else{
-        startPos = e.originalEvent.touches[0].pageY;
+        startPos = e.originalEvent.targetTouches[0].pageY;
       }
     })
 
   $(document).bind('mouseup touchend', function(e){
       if (e.type == "mouseup"){
-        endPos = e.pageY; //starting Y of client
+        endPos = e.pageY; // ending Y of client
       }
       else{
-        endPos = e.originalEvent.touches[0].pageY;
+        endPos = e.originalEvent.changedTouches[0].pageY;
       }
       if ((endPos - startPos) > scrollDelta){
-        // console.log("startPos"+ startPos + "endPos" + endPos + "Delta" + (endPos-startPos))
         location.reload()
       }
   })

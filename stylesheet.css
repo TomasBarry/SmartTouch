@@ -1,0 +1,36 @@
+body {
+	width: 350px;
+	height: 350px;
+	background-color: #1d2b57;
+}
+
+.introduction {
+	color: white;
+}
+
+.enable_disable {
+	color: white;
+}
+
+.checkboxtext
+{
+  /* Checkbox text */
+  font-size: 100%;
+  display: inline;
+}
+
+label {
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+}
+input {
+    width: 13px;
+    height: 13px;
+    padding: 0;
+    margin:0;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
+}

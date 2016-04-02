@@ -53,6 +53,9 @@ function doubleTap(half_screen){
     if (eventList.length > 0){
       if (window.performance.now() - eventList[0][1] < 1500){
         console.log("double tap")
+        chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
+  			console.log(response.farewell);
+		});
       }
       eventList = []
     }

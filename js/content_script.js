@@ -34,6 +34,14 @@ $(document).bind('mouseup touchend', function(e){
       endPos = e.originalEvent.changedTouches[0].screenY;
     }
     if ((endPos - startPos) > scrollDelta){
+      var img = document.createElement("img")
+      iconURL = chrome.extension.getURL("/loadingGif.gif");
+      img.src = iconURL;
+      img.style =  "align:center; height:200px; width:200px; display: block; margin-left:auto; margin-right:auto; z-index: 1000;"
+      var div = document.createElement("div")
+      div.style ="position:absolute; width:100%; height:200px"
+      $(div).append(img)
+      $('body').prepend(div);
       location.reload()
     }
   }

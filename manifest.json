@@ -10,8 +10,12 @@
    "default_popup": "popup.html"
   },
   "permissions": [
-   "activeTab"
+   "activeTab",
+   "tabs"
    ],
+   "background": {
+    "scripts": ["/js/background.js"]
+    },
     "content_scripts": [
       {
         "matches": ["<all_urls>"],

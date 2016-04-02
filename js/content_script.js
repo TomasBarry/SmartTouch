@@ -1,4 +1,14 @@
-$(document).ready(refreshGesture)
+$(document).ready(main)
+
+
+function main(){
+  var screen_X = $(window).width()
+  var screen_Y = $(window).height()
+  var window_half = Math.abs(screen_X / 2)
+  refreshGesture()
+  doubleTap(window_half)
+}
+
 // distance the user must scroll for it to be considered a swipe
 //  TODO change scroll distance to depend on screen resolution
 var scrollDelta = 100;
@@ -28,4 +38,27 @@ $(document).bind('mouseup touchend', function(e){
     }
   }
 })
+}
+
+// function holdLink(){
+//   console.log("got here")
+//   $(document).find('a').bind('mousedown', function(){
+//     alert('clicked link')
+//   })
+// }
+
+function doubleTap(half_screen){
+  var eventList = new Array()
+  $(document).bind('click', function(e){
+    if (eventList.length > 0){
+      if (window.performance.now() - eventList[0][1] < 1500){
+        console.log("double tap")
+      }
+      eventList = []
+    }
+    else{
+      var eventInfo = [e.screen_X, window.performance.now()]
+      eventList.push(eventInfo)
+    }
+  })
 }

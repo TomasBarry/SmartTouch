@@ -18,7 +18,7 @@
         "js": [
               "/js/external/jquery.js",
               "/js/content_script.js"
-            ]
+              ]
       }
     ]
 }

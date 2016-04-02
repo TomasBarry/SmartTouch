@@ -8,15 +8,16 @@ if($(window).scrollTop() === 0){
   var endPos
 
   $(document).bind('mousedown touchstart', function(e){
-    alert('touched')
+    // alert('touched')
+    console.log(e)
     startPos = e.clientY; //starting Y of client
     })
 
-  $(document).bind('mouseup touchend', function(e){
-    alert('released')
-      endPos = e.clientY; //stopping Y of client
-      if ((endPos - startPos) > scrollDelta){
-        console.log("startPos"+ startPos + "endPos" + endPos + "Delta" + (endPos-startPos))
-      }
-  })
+  // $(document).bind('mouseup touchend', function(e){
+  //   alert('released')
+  //     endPos = e.clientY; //stopping Y of client
+  //     if ((endPos - startPos) > scrollDelta){
+  //       console.log("startPos"+ startPos + "endPos" + endPos + "Delta" + (endPos-startPos))
+  //     }
+  // })
 }

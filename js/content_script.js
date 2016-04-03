@@ -1,7 +1,10 @@
 $(document).ready(main)
+// $(document.body).ready(main)
+// $(window).bind('load', main)
 
 
 function main() {
+  console.log('executing script')
   refreshGesture()
   doubleTap()
 }
@@ -13,40 +16,46 @@ function refreshGesture() {
   var startPos
   var endPos
   var scrollDelta = 100;
+  setupLoadingImage()
   $(document).on('mousedown touchstart', function(e) {
     startPos = e.type == "mousedown"? e.screenY:e.originalEvent.targetTouches[0].screenY;
       $(this).on('mousemove touchmove', function(e){
         var curY = e.type == "mousemove"? e.screenY:e.originalEvent.targetTouches[0].screenY;
-        animateBody(curY - startPos)
+        animateImage(curY - startPos - 50)
       })
   }).on('mouseup touchend', function(e){
-    endPos = e.type == 'mouseup'?e.screenY:e.originalEvent.changedTouches[0].screenY;
-    if ((endPos - startPos) > scrollDelta) {
-      location.reload()
+    if($(window).scrollTop() === 0){
+      endPos = e.type == 'mouseup'?e.screenY:e.originalEvent.changedTouches[0].screenY;
+      if ((endPos - startPos) > scrollDelta) {
+        location.reload()
+      }
+      else{
+        resetAnimation()
+      }
+      $(this).unbind('mousemove touchmove');
     }
-    $(this).unbind('mousemove touchmove');
-    resetAnimation()
-    refreshAnimation()
   })
-
-  function animateBody(curY){
-    $(document.body).css('top',(curY)+'px')
-  }
-  function resetAnimation(){
-    var w = $(document.body).offset().top
-    while( w != 0){
-      $(document.body).css('top', (w--)+'px')
-    }
-  }
-   function refreshAnimation(){
+  function setupLoadingImage(){
     var img = document.createElement("img")
     var iconURL = chrome.extension.getURL("images/loadingGif.gif");
     img.src = iconURL;
     var cX = Math.floor($(window).width() /2)- 50
-    img.style =  "position:absolute; top:20px;left:"+cX+"px;z-index:100; width:100px;height100px;"
+    img.style =  "position:absolute; top:-100px;left:"+cX+"px;z-index:1000; width:100px;height100px;"
+    img.className = "loading-animation"
     $(document.body).prepend(img)
   }
+  function animateImage(curY){
+    if(curY < 50){
+    $('.loading-animation').css('top',(curY)+'px')
+    }
   }
+  function resetAnimation(){
+    var w = $('.loading-animation').offset().top
+    while( w != -100){
+      $('.loading-animation').css('top', (w--)+'px')
+    }
+  }
+}
 
 
 function topLeft(clickX, clickY) {

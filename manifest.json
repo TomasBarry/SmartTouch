@@ -10,7 +10,7 @@
              "128": "images/icon128.png"
             },
   "browser_action": {
-   "default_icon": "images/icon16.png",
+   "default_icon": "images/icon36.png",
    "default_popup": "popup.html"
   },
   "web_accessible_resources": ["images/loadingGif.gif"],

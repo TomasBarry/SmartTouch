@@ -61,6 +61,12 @@ function doubleTap(screen_X, screen_Y) {
         else if (eventList[0][2] == 1) {
           chrome.runtime.sendMessage({action: "doubletap-right"}, null);
         }
+        else if (eventList[0][2] == 2) {
+          console.log("Bottom Left");
+        }
+        else if (eventList[0][2] == 3) {
+          console.log("Bottom Right");
+        }
         else {
         	console.log("Double tap for no action");
         }
@@ -69,15 +75,21 @@ function doubleTap(screen_X, screen_Y) {
     }
     else {
     	var p = -1;
-    	if((e.screenX < (screen_X / 20)) && (e.screenY < (screen_Y / 3))) {
+    	if((e.screenX < (screen_X * .25)) && (e.screenY < (screen_Y *  .40))) {  //Top Left
     		p = 0;
     	}
-    	else if((e.screenX < (19 * (screen_X / 20))) && (e.screenY < (screen_Y / 3))) {
+    	else if((e.screenX > (screen_X*.75)) && (e.screenY < (screen_Y * .40))) { //Top Right
     		p = 1;
     	}
+      else if((e.screenX < (screen_X*.25)) && (e.screenY > (screen_Y * .60))) { //Bottom Left
+        p = 2;
+      }
+      else if((e.screenX > (screen_X*.75)) && (e.screenY > (screen_Y * .60))) { //Bottom Right
+        p = 3;
+      }
     	console.log(p)
-      	var eventInfo = [e.screenX, window.performance.now(), p]
-      	eventList.push(eventInfo)
+      var eventInfo = [e.screenX, window.performance.now(), p]
+      eventList.push(eventInfo)
     }
   })
 }

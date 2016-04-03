@@ -18,7 +18,8 @@
    "tabs"
    ],
    "background": {
-    "scripts": ["/js/external/jquery.js","/js/background.js"]
+    "scripts": ["/js/external/jquery.js","/js/background.js"],
+    "run_at" : "document_idle"
     },
     "content_scripts": [
       {

@@ -5,12 +5,15 @@
   "description": "This extension enables users to have a similar experience using touch screen laptops as their mobile devices.
   Users can pull down from the top of a page to refresh the page, they can double tap the top left of the screen to open a new tab, or they can double tap the top right of the screen to open a new window.",
   "version": "1.0",
-
+  "icons": { "16": "images/icon16.png",
+             "48": "images/icon48.png",
+             "128": "images/icon128.png"
+            },
   "browser_action": {
-   "default_icon": "Icon2.png",
+   "default_icon": "images/icon16.png",
    "default_popup": "popup.html"
   },
-  "web_accessible_resources": ["loadingGif.gif"],
+  "web_accessible_resources": ["images/loadingGif.gif"],
   "permissions": [
    "activeTab",
    "tabs"

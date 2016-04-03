@@ -36,7 +36,7 @@ function refreshGesture() {
     		}
     		if ((endPos - startPos) > scrollDelta) {
         		var img = document.createElement("img")
-        		iconURL = chrome.extension.getURL("/loadingGif.gif");
+        		iconURL = chrome.extension.getURL("../images/loadingGif.gif");
       			img.src = iconURL;
       			img.style =  "align:center; height:200px; width:200px; display: block; margin-left:auto; margin-right:auto; z-index: 2147483647;"
       			var div = document.createElement("div")

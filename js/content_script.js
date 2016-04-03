@@ -7,45 +7,46 @@ function main() {
 }
 
 // distance the user must scroll for it to be considered a swipe
-//  TODO change scroll distance to depend on screen resolution
-var scrollDelta = 100;
 //drag gesture handler
 // if the user is at the top of the page
 function refreshGesture() {
-	var startPos
-	var endPos
+  var startPos
+  var endPos
+  var scrollDelta = 100;
+  $(document).on('mousedown touchstart', function(e) {
+    startPos = e.type == "mousedown"? e.screenY:e.originalEvent.targetTouches[0].screenY;
+      $(this).on('mousemove touchmove', function(e){
+        var curY = e.type == "mousemove"? e.screenY:e.originalEvent.targetTouches[0].screenY;
+        animateBody(curY - startPos)
+      })
+  }).on('mouseup touchend', function(e){
+    endPos = e.type == 'mouseup'?e.screenY:e.originalEvent.changedTouches[0].screenY;
+    if ((endPos - startPos) > scrollDelta) {
+      location.reload()
+    }
+    $(this).unbind('mousemove touchmove');
+    resetAnimation()
+    refreshAnimation()
+  })
 
-	$(document).bind('mousedown touchstart', function(e) {
-		if (e.type == "mousedown") {
-    		startPos = e.screenY; // starting Y of client
-  	  	}
-  	    else {
-    		startPos = e.originalEvent.targetTouches[0].screenY;
-  	  	}
-	})
-
-	$(document).bind('mouseup touchend', function(e) {
-    	if($(window).scrollTop() === 0) {
-    		if (e.type == "mouseup") {
-      			endPos = e.screenY; // ending Y of client
-    		}
-    		else {
-        		endPos = e.originalEvent.changedTouches[0].screenY;
-    		}
-    		if ((endPos - startPos) > scrollDelta) {
-        		var img = document.createElement("img")
-        		iconURL = chrome.extension.getURL("../images/loadingGif.gif");
-      			img.src = iconURL;
-      			img.style =  "align:center; height:200px; width:200px; display: block; margin-left:auto; margin-right:auto; z-index: 2147483647;"
-      			var div = document.createElement("div")
-      			div.style ="position:absolute; width:100%; height:200px"
-      			$(div).append(img)
-      			$('body').prepend(div);
-      			location.reload()
-    		}
-  		}
-	})
-}
+  function animateBody(curY){
+    $(document.body).css('top',(curY)+'px')
+  }
+  function resetAnimation(){
+    var w = $(document.body).offset().top
+    while( w != 0){
+      $(document.body).css('top', (w--)+'px')
+    }
+  }
+   function refreshAnimation(){
+    var img = document.createElement("img")
+    var iconURL = chrome.extension.getURL("images/loadingGif.gif");
+    img.src = iconURL;
+    var cX = Math.floor($(window).width() /2)- 50
+    img.style =  "position:absolute; top:20px;left:"+cX+"px;z-index:100; width:100px;height100px;"
+    $(document.body).prepend(img)
+  }
+  }
 
 
 function topLeft(clickX, clickY) {

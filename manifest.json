@@ -27,7 +27,8 @@
         "js": [
               "/js/external/jquery.js",
               "/js/content_script.js"
-              ]
+              ],
+        "css": ["/stylesheets/content.css"]
       }
     ]
 }

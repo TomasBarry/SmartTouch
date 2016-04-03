@@ -1,8 +1,9 @@
 {
   "manifest_version": 2,
 
-  "name": "literate-train",
-  "description": "This extension will refresh the page when a user swipes",
+  "name": "Smart Touch",
+  "description": "This extension enables users to have a similar experience using touch screen laptops as their mobile devices.
+  Users can pull down from the top of a page to refresh the page, they can double tap the top left of the screen to open a new tab, or they can double tap the top right of the screen to open a new window.",
   "version": "1.0",
 
   "browser_action": {

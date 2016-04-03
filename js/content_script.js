@@ -72,7 +72,7 @@ function doubleTap(screen_X, screen_Y) {
     	if((e.screenX < (screen_X / 20)) && (e.screenY < (screen_Y / 3))) {
     		p = 0;
     	}
-    	else if((e.screenX < (19 * (screen_X / 20))) && (e.screenY < (screen_Y / 3))) {
+    	else if((e.screenX > (13 * (screen_X / 20))) && (e.screenY < (screen_Y / 3))) {
     		p = 1;
     	}
     	console.log(p)

@@ -14,13 +14,19 @@ function Queue()
 }
 
 var gestures = {
-            refresh:   ['touchend','touchmove','touchstart'],
-            doubletap: ['touchstart','touchend', 'touchstart','touchend'],
-            tripleTap: ['touchstart','touchend', 'touchstart','touchend', 'touchstart','touchend']
+            refresh:   {gesture:['touchend','touchmove','touchstart'],
+                         action:reload
+                       },
+            doubletap: {gesture:['touchend','touchstart', 'touchend','touchstart'],
+                         action: doubleTap
+                       },
+            tripleTap: {gesture:['touchend','touchstart', 'touchend','touchstart', 'touchend','touchstart'],
+                         action: tripleTap}
            }
 
 //a dictionary of possible gestures given past events
 var possibleGestures = $.extend({}, gestures);
+var previousEvent;
 
 function main() {
   console.log('executing script')
@@ -37,19 +43,31 @@ function setupHandlers(){
 function checkGestures(e){
   console.log("EVENT OCCURED " + e.type)
   for (var key in possibleGestures){
-    if(possibleGestures[key][possibleGestures[key].length-1] == e.type){
+    if(possibleGestures[key]['gesture'][possibleGestures[key]['gesture'].length-1] == e.type){
       // console.log(key + " found match popping event" + e.type)
-      possibleGestures[key].pop()
-      // console.log("possible gesture " + key + " stack " + JSON.stringify(possibleGestures[key]))
-      if(possibleGestures[key].length == 0){
-        console.log('performing gesture ' + key)
+      possibleGestures[key]['gesture'].pop()
+      // console.log("possible gesture " + key + " stack " + JSON.stringify(possibleGestures[key][0]))
+      if(possibleGestures[key]['gesture'].length == 0){
+        // console.log('performing gesture ' + key)
+        possibleGestures[key]['action']()
       }
     }
     else{
       // console.log('resetting gesture ' + key)
-      possibleGestures[key] = gestures[key].slice()
+      possibleGestures[key]['gesture'] = gestures[key]['gesture'].slice()
     }
   }
+}
+
+function reload(){
+  console.log("reloading!!")
+  location.reload()
+}
+function doubleTap(){
+  console.log("double tap!")
+}
+function tripleTap(){
+  console.log("triple tap!")
 }
 // distance the user must scroll for it to be considered a swipe
 //drag gesture handler

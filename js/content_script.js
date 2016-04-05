@@ -1,74 +1,43 @@
 $(document).ready(main)
-// $(document.body).ready(main)
-// $(window).bind('load', main)
 
-function Queue()
-{
- this.stac=new Array();
- this.dequeue=function(){
-  return this.stac.pop();
- }
- this.enqueue=function(item){
-  this.stac.unshift(item);
- }
+var Refresh = function(action){
+  //action to be taken on a successful gesture
+  var action = action;
+  //touchstart handler
+  var touchstart =function(e){
+    console.log('touchstart')
+  };
+  //touchmove handler
+  var touchmove =function(e){
+    console.log('touchmove')
+  };
+  //touch end handler
+  var touchend =function (e){
+    console.log('touchsend')
+    action()
+  };
+  //define a set of events that this gesture is concerned with and the action that should be taken when
+  // that event is encountered
+  var events = {touchstart:touchstart, touchmove:touchmove, touchend:touchend}
+  //main entry point into the class (should be the only non private method)
+  this.event_handler = function(e){
+    if(e.type in events){
+      events[e.type](e)
+    }
+  };
 }
 
-var gestures = {
-            refresh:   {gesture:['touchend','touchmove','touchstart'],
-                         action:reload
-                       },
-            doubletap: {gesture:['touchend','touchstart', 'touchend','touchstart'],
-                         action: doubleTap
-                       },
-            tripleTap: {gesture:['touchend','touchstart', 'touchend','touchstart', 'touchend','touchstart'],
-                         action: tripleTap}
-           }
-
-//a dictionary of possible gestures given past events
-var possibleGestures = $.extend({}, gestures);
-var previousEvent;
-
-function main() {
-  console.log('executing script')
-  // doubleTap()
-  // console.log("possibleGestures" + JSON.stringify(possibleGestures))
-  setupHandlers()
-}
-
-function setupHandlers(){
-  $(document).on('touchstart touchmove touchend', function(e){
-    checkGestures(e)
+function main(){
+  var refreshAction = function(){ console.log("REFRESHING")}
+  var gestures = [new Refresh(refreshAction)]
+  $(window).on('touchstart touchmove touchend', function(e){
+    for(var i=0; i<gestures.length; i++){
+      gestures[i].event_handler(e)
+    }
   })
 }
-function checkGestures(e){
-  console.log("EVENT OCCURED " + e.type)
-  for (var key in possibleGestures){
-    if(possibleGestures[key]['gesture'][possibleGestures[key]['gesture'].length-1] == e.type){
-      // console.log(key + " found match popping event" + e.type)
-      possibleGestures[key]['gesture'].pop()
-      // console.log("possible gesture " + key + " stack " + JSON.stringify(possibleGestures[key][0]))
-      if(possibleGestures[key]['gesture'].length == 0){
-        // console.log('performing gesture ' + key)
-        possibleGestures[key]['action']()
-      }
-    }
-    else{
-      // console.log('resetting gesture ' + key)
-      possibleGestures[key]['gesture'] = gestures[key]['gesture'].slice()
-    }
-  }
-}
 
-function reload(){
-  console.log("reloading!!")
-  location.reload()
-}
-function doubleTap(){
-  console.log("double tap!")
-}
-function tripleTap(){
-  console.log("triple tap!")
-}
+
 // distance the user must scroll for it to be considered a swipe
 //drag gesture handler
 // if the user is at the top of the page
@@ -93,7 +62,6 @@ function tripleTap(){
 //         resetAnimation()
 //       }
 //       $(this).unbind('mousemove touchmove');
-//     }
 //   })
 //   function setupLoadingImage(){
 //     var img = document.createElement("img")

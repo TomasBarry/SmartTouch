@@ -10,6 +10,7 @@ var Refresh = function(action){
   //** Handler specific variables ** //
   var swipeDelta = 100;
   var startingPosition = -1;
+  var endingPosition = 0;
   var touchDown = false;
 
   //** Event Handler Functions ** //
@@ -19,19 +20,21 @@ var Refresh = function(action){
   };
   var touchmove =function(e){
     if (touchDown){
-      var pos  = e.originalEvent.targetTouches[0].screenY
-      animateImage(pos - startingPosition - 50)
+      var pos  = e.originalEvent.targetTouches[0].screenY;
+      animateImage(pos - startingPosition - 50);
     }
   };
   function touchend(e){
-    var endPos = e.originalEvent.changedTouches[0].screenY;
-    if ((endPos - startingPosition) >= swipeDelta){
-      action()
-    }
-    else{
-      console.log("resetting animation")
-      resetAnimation()
-    }
+  	if(touchDown) {
+	    var endPos = e.originalEvent.changedTouches[0].screenY;
+	    if ((endPos - startingPosition) >= swipeDelta){
+	      action()
+	    }
+	    else{
+	      console.log("resetting animation")
+	      resetAnimation()
+	    }
+  	}
     touchDown = false
   };
 
@@ -43,7 +46,9 @@ var Refresh = function(action){
     }
     function resetAnimation(){
       var w = $('.loading-animation').offset().top
-      while( w != -100){
+      console.log(w)
+      while( w > -100){
+      	console.log("Resetting mother fucker")
         $('.loading-animation').css('top', (w--)+'px')
       }
     }

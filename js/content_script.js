@@ -1,34 +1,84 @@
+// when document is ready being execution
 $(document).ready(main)
 
 var Refresh = function(action){
-  //action to be taken on a successful gesture
+  //** initial setup **//
+  setupLoadingImage()
+  //** action to be taken on a successful gesture **//
   var action = action;
-  //touchstart handler
+
+  //** Handler specific variables ** //
+  var swipeDelta = 100;
+  var startingPosition = -1;
+  var touchDown = false;
+
+  //** Event Handler Functions ** //
   var touchstart =function(e){
-    console.log('touchstart')
+    touchDown = true;
+    startingPosition = e.originalEvent.targetTouches[0].screenY;
   };
-  //touchmove handler
   var touchmove =function(e){
-    console.log('touchmove')
+    if (touchDown){
+      var pos  = e.originalEvent.targetTouches[0].screenY
+      animateImage(pos - startingPosition - 50)
+    }
   };
-  //touch end handler
-  var touchend =function (e){
-    console.log('touchsend')
-    action()
+  function touchend(e){
+    var endPos = e.originalEvent.changedTouches[0].screenY;
+    if ((endPos - startingPosition) >= swipeDelta){
+      action()
+    }
+    else{
+      console.log("resetting animation")
+      resetAnimation()
+    }
+    touchDown = false
   };
+
+  // ** Animations for Gesture ** //
+    function animateImage(curY){
+      if(curY < 50){
+        $('.loading-animation').css('top',(curY)+'px')
+      }
+    }
+    function resetAnimation(){
+      var w = $('.loading-animation').offset().top
+      while( w != -100){
+        $('.loading-animation').css('top', (w--)+'px')
+      }
+    }
+  // ** Gesture constraints ** //
+  var constraints = function(e){
+    return $(window).scrollTop() === 0
+  }
+
+  //** Initial DOM setup functions **//
+  function setupLoadingImage(){
+    var img = document.createElement("img")
+    var iconURL = chrome.extension.getURL("images/loadingGif.gif");
+    img.src = iconURL;
+    var cX = Math.floor($(window).width() /2)- 50
+    img.style =  "position:absolute; top:-100px;left:"+cX+"px;z-index:1000; width:100px;height100px;"
+    img.className = "loading-animation"
+    $(document.body).prepend(img)
+  }
+
   //define a set of events that this gesture is concerned with and the action that should be taken when
   // that event is encountered
   var events = {touchstart:touchstart, touchmove:touchmove, touchend:touchend}
   //main entry point into the class (should be the only non private method)
+  //handler exection of gesture
   this.event_handler = function(e){
-    if(e.type in events){
+    if(e.type in events && constraints(e)){
       events[e.type](e)
     }
   };
 }
 
+
+
 function main(){
-  var refreshAction = function(){ console.log("REFRESHING")}
+  var refreshAction = function(){ location.reload()}
   var gestures = [new Refresh(refreshAction)]
   $(window).on('touchstart touchmove touchend', function(e){
     for(var i=0; i<gestures.length; i++){
@@ -36,55 +86,6 @@ function main(){
     }
   })
 }
-
-
-// distance the user must scroll for it to be considered a swipe
-//drag gesture handler
-// if the user is at the top of the page
-// function refreshGesture() {
-//   var startPos
-//   var endPos
-//   var scrollDelta = 100;
-//   setupLoadingImage()
-//   $(document).on('mousedown touchstart', function(e) {
-//     startPos = e.type == "mousedown"? e.screenY:e.originalEvent.targetTouches[0].screenY;
-//       $(this).on('mousemove touchmove', function(e){
-//         var curY = e.type == "mousemove"? e.screenY:e.originalEvent.targetTouches[0].screenY;
-//         animateImage(curY - startPos - 50)
-//       })
-//   }).on('mouseup touchend', function(e){
-//     if($(window).scrollTop() === 0){
-//       endPos = e.type == 'mouseup'?e.screenY:e.originalEvent.changedTouches[0].screenY;
-//       if ((endPos - startPos) > scrollDelta) {
-//         location.reload()
-//       }
-//       else{
-//         resetAnimation()
-//       }
-//       $(this).unbind('mousemove touchmove');
-//   })
-//   function setupLoadingImage(){
-//     var img = document.createElement("img")
-//     var iconURL = chrome.extension.getURL("images/loadingGif.gif");
-//     img.src = iconURL;
-//     var cX = Math.floor($(window).width() /2)- 50
-//     img.style =  "position:absolute; top:-100px;left:"+cX+"px;z-index:1000; width:100px;height100px;"
-//     img.className = "loading-animation"
-//     $(document.body).prepend(img)
-//   }
-//   function animateImage(curY){
-//     if(curY < 50){
-//     $('.loading-animation').css('top',(curY)+'px')
-//     }
-//   }
-//   function resetAnimation(){
-//     var w = $('.loading-animation').offset().top
-//     while( w != -100){
-//       $('.loading-animation').css('top', (w--)+'px')
-//     }
-//   }
-// }
-
 
 // function topLeft(clickX, clickY) {
 // 	var width = window.innerWidth;

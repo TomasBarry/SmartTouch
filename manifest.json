@@ -15,10 +15,13 @@
   },
   "web_accessible_resources": ["images/loadingGif.gif"],
   "permissions": [
-   "tabs"
-   ],
+                 "tabs"
+                 ],
    "background": {
-    "scripts": ["/js/external/jquery.js","/js/background.js"],
+    "scripts": [
+                "/js/external/jquery.js",
+                "/js/background.js"
+                ],
     "run_at" : "document_idle"
     },
     "content_scripts": [
@@ -26,6 +29,7 @@
         "matches": ["<all_urls>"],
         "js": [
               "/js/external/jquery.js",
+              "/js/refresh.js",
               "/js/content_script.js"
               ],
         "css": ["/stylesheets/content.css"],

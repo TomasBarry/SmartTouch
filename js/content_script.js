@@ -10,7 +10,6 @@ var Refresh = function(action){
   //** Handler specific variables ** //
   var swipeDelta = 100;
   var startingPosition = -1;
-  var endingPosition = 0;
   var touchDown = false;
 
   //** Event Handler Functions ** //
@@ -20,36 +19,33 @@ var Refresh = function(action){
   };
   var touchmove =function(e){
     if (touchDown){
-      var pos  = e.originalEvent.targetTouches[0].screenY;
-      animateImage(pos - startingPosition - 50);
+      var pos  = e.originalEvent.targetTouches[0].screenY
+      animateImage(pos - startingPosition - 50)
     }
   };
   function touchend(e){
-  	if(touchDown) {
-	    var endPos = e.originalEvent.changedTouches[0].screenY;
-	    if ((endPos - startingPosition) >= swipeDelta){
-	      action()
-	    }
-	    else{
-	      console.log("resetting animation")
-	      resetAnimation()
-	    }
-  	}
+    var endPos = e.originalEvent.changedTouches[0].screenY;
+    if ((endPos - startingPosition) >= swipeDelta){
+      action()
+    }
+    else{
+      console.log("resetting animation")
+      resetAnimation()
+    }
     touchDown = false
   };
 
   // ** Animations for Gesture ** //
     function animateImage(curY){
-      if(curY < 50){
-        $('.loading-animation').css('top',(curY)+'px')
+      if(curY < 100){
+        $('.refresh-animation').css('height',(curY)+'px')
       }
     }
     function resetAnimation(){
-      var w = $('.loading-animation').offset().top
-      console.log(w)
+      var w = $('.refresh-animation').offset().top
       while( w > -100){
-      	console.log("Resetting mother fucker")
-        $('.loading-animation').css('top', (w--)+'px')
+        $('.refresh-animation').css('height', (w--)+'px')
+        console.log("resetting")
       }
     }
   // ** Gesture constraints ** //
@@ -59,13 +55,8 @@ var Refresh = function(action){
 
   //** Initial DOM setup functions **//
   function setupLoadingImage(){
-    var img = document.createElement("img")
-    var iconURL = chrome.extension.getURL("images/loadingGif.gif");
-    img.src = iconURL;
-    var cX = Math.floor($(window).width() /2)- 50
-    img.style =  "position:absolute; top:-100px;left:"+cX+"px;z-index:1000; width:100px;height100px;"
-    img.className = "loading-animation"
-    $(document.body).prepend(img)
+    var div = $('<div class="refresh-animation"><')
+    $(document.body).prepend(div)
   }
 
   //define a set of events that this gesture is concerned with and the action that should be taken when
@@ -91,101 +82,3 @@ function main(){
     }
   })
 }
-
-// function topLeft(clickX, clickY) {
-// 	var width = window.innerWidth;
-// 	var height = window.innerHeight;
-// 	console.log("Width: " + width);
-// 	console.log("Height: " + height);
-// 	if((clickX < (0.25 * width)) && (clickY < (0.40 * height))) {
-// 		console.log("User clicked in top left");
-// 		return true;
-// 	}
-// 	return false;
-// }
-
-
-// function bottomLeft(clickX, clickY) {
-// 	var width = window.innerWidth;
-// 	var height = window.innerHeight;
-// 	console.log("Width: " + width);
-// 	console.log("Height: " + height);
-// 	if((clickX < (0.25 * width)) && (clickY > (0.60 * height))) {
-// 		console.log("User clicked in bottom left");
-// 		return true;
-// 	}
-// 	return false;
-// }
-
-
-// function topRight(clickX, clickY) {
-// 	var width = window.innerWidth;
-// 	var height = window.innerHeight;
-// 	console.log("Width: " + width);
-// 	console.log("Height: " + height);
-// 	if((clickX > (0.55 * width)) && (clickY < (0.40 * height))) {
-// 		console.log("User clicked in top right");
-// 		return true;
-// 	}
-// 	return false;
-// }
-
-
-// function bottomRight(clickX, clickY) {
-// 	var width = window.innerWidth;
-// 	var height = window.innerHeight;
-// 	console.log("Width: " + width);
-// 	console.log("Height: " + height);
-// 	if((clickX > (0.55 * width)) && (clickY > (0.60 * height))) {
-// 		console.log("User clicked in bottom right");
-// 		return true;
-// 	}
-// 	return false;
-// }
-
-
-// function doubleTap() {
-//   	var eventList = new Array()
-//   	$(document).bind('click', function(e) {
-// 	    if (eventList.length > 0) {
-// 			if (window.performance.now() - eventList[0][1] < 1500 && Math.abs(e.screenX - eventList[0][0]) < 30) {
-// 				if(eventList[0][2] == 0) {
-// 				  	chrome.runtime.sendMessage({action: "doubletap-left"}, null);
-// 				}
-// 				else if (eventList[0][2] == 1) {
-// 				  	chrome.runtime.sendMessage({action: "doubletap-right"}, null);
-// 				}
-// 				else if (eventList[0][2] == 2) {
-// 				  	console.log("Bottom Left");
-// 				}
-// 				else if (eventList[0][2] == 3) {
-// 				  	console.log("Bottom Right");
-// 				}
-// 				else {
-// 					console.log("Double tap for no action");
-// 				}
-// 			}
-// 			eventList = []
-// 	    }
-// 	    else {
-// 	    	var p = -1;
-// 	    	console.log("Users click event");
-// 	    	console.log(e);
-// 	    	if(topLeft(e.screenX, e.screenY)) {
-// 	    		p = 0;
-// 	    	}
-// 	    	else if(topRight(e.screenX, e.screenY)) {
-// 	    		p = 1;
-// 	    	}
-// 	      	else if(bottomLeft(e.screenX, e.screenY)) {
-// 	        	p = 2;
-// 	      	}
-// 	      else if(bottomRight(e.screenX, e.screenY)) {
-// 	        	p = 3;
-// 	      }
-// 	      console.log(p)
-// 	      var eventInfo = [e.screenX, window.performance.now(), p]
-// 	      eventList.push(eventInfo)
-// 	    }
-// 	})
-// }

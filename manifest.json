@@ -13,7 +13,7 @@
    "default_icon": "images/icon36.png",
    "default_popup": "popup.html"
   },
-  "web_accessible_resources": ["images/loadingGif.gif"],
+  "web_accessible_resources": ["images/refresh-ico.png"],
   "permissions": [
                  "tabs"
                  ],

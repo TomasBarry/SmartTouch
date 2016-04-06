@@ -1,10 +1,18 @@
 .refresh-animation{
   position: absolute;
-  /*display: block;*/
   z-index: 1000;
   top: 0px;
   left: 0px;
   height: 0px;
   width: 100%;
-  background-color: #ccffe6;
+  opacity: 0.7;
+  background-color: #404040;
+  text-align: center;
+  border-radius: 0px 0px 50% 50%/ 0px 0px 100% 100%;
+}
+.refresh-image{
+  max-width:50%;
+  max-height:50%;
+  vertical-align: middle;
+  margin: 2.5%;
 }

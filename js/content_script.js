@@ -2,7 +2,7 @@
 $(document).ready(main)
 
 function main(){
-  var refreshAction = function(){ console.log('refreshing')}
+  var refreshAction = function(){location.reload()}
   var gestures = [new Refresh(refreshAction)]
   $(window).on('touchstart touchmove touchend', function(e){
     for(var i=0; i<gestures.length; i++){

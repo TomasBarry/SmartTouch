@@ -9,7 +9,6 @@ var Refresh = function(action){
   var startingPosition = -1;
   var touchDown = false;
 
-
   //** Event Handler Functions ** //
   var touchstart =function(e){
     touchDown = true;

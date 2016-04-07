@@ -23,8 +23,10 @@ var Refresh = function(action){
     startingPosition = e.originalEvent.targetTouches[0].screenY;
   };
   function touchmove(e){
-    if (touchDown){
-      var pos  = e.originalEvent.targetTouches[0].screenY
+    var pos  = e.originalEvent.targetTouches[0].screenY
+    //if touchscreen pressed and moving in down direction
+    if (touchDown && pos > startingPosition){
+      e.preventDefault();
       animateImage(pos - startingPosition - 50)
     }
   };
@@ -40,6 +42,11 @@ var Refresh = function(action){
   };
   // ** Animations for Gesture ** //
     function animateImage(curY){
+      var leftOffset = $(window).scrollLeft()
+      //if the horizontal scroll bar has moved
+      if(leftOffset != $('.refresh-animation').offset().left){
+        $('.refresh-animation').css('left', leftOffset+'px')
+      }
       if(curY < 100){
         $('.refresh-animation').css('height',(curY)+'px')
       }

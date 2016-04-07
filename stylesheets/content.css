@@ -5,10 +5,10 @@
   left: 0px;
   height: 0px;
   width: 100%;
-  opacity: 0.7;
-  background-color: #404040;
+  opacity: 0.6;
+  background-color: #303030;
   text-align: center;
-  border-radius: 0px 0px 50% 50%/ 0px 0px 100% 100%;
+  border-radius: 0px 0px 50% 50%/ 0px 100% 100% 100%;
 }
 .refresh-image{
   max-width:50%;

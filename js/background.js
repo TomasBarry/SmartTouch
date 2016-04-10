@@ -1,12 +1,11 @@
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-  	if (message.action == 'doubletap-left') {
-  		chrome.tabs.create({'url': "https://www.google.com"}, function(tab) {
-    		console.log("Tab opened")
-  		});
-  	}
-  	else if (message.action == 'doubletap-right') {
-   		chrome.windows.create({'url': 'https://www.google.com'}, function(window) {
-   			console.log("window opened")
-   		});
+  	if (message.action == 'newtab') {
+        if('url' in message){
+          chrome.tabs.create({url:message.url}, null)
+        }
+        else{
+          console.log("asdfasd")
+      		chrome.tabs.create({}, null);
+      }
   	}
 });

@@ -43,11 +43,10 @@ var Refresh = function(action){
   // ** Animations for Gesture ** //
     function animateImage(curY){
       var width = $(window).width()
-      var position = Math.round(((width/2) - (width * 0.1)) + $(window).scrollLeft())
+      var position = Math.round(((width/2) - (160/2)) + $(window).scrollLeft())
       //if the horizontal scroll bar has moved
       if(position != $('.refresh-animation').position().left){
         $('.refresh-animation').css('left', position+'px')
-        console.log("CHanging positions")
       }
       if(curY < 90){
         $('.refresh-animation').css('height',(curY)+'px')
@@ -69,11 +68,8 @@ var Refresh = function(action){
 
   //** Initial DOM setup functions **//
   function setupAnimation(){
-    // console.log("found somehting " + )
     var width = $(window).width()
-    // var height = $(document).height()
-    var percent_width = width * 0.2;  //width of animation
-    var left_pos = Math.round((width/2) - (percent_width/2))
+    var left_pos = Math.round((width/2) - (160/2))
     $(document.body).prepend('<div class="refresh-animation" style="left:'+left_pos+'px;"/>')
     var imgURL = chrome.extension.getURL("/images/refresh-ico.png");
     var img = $('<img class="refresh-image" src="'+imgURL+'">')

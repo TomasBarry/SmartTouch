@@ -30,6 +30,7 @@
         "js": [
               "/js/external/jquery.js",
               "/js/refresh.js",
+              "/js/tap.js",
               "/js/content_script.js"
               ],
         "css": ["/stylesheets/content.css"],
